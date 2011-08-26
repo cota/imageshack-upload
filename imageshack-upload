@@ -72,6 +72,13 @@ function usage() {
 	echo
 }
 
+function get_mimetype() {
+	img="$1"
+
+	# get the last word from "file --mime-type", with ' ' as the separator
+	file --mime-type $img | awk -F ' '  '{ print $(NF) }'
+}
+
 function upload() {
 	img="$1"
 
@@ -80,7 +87,8 @@ function upload() {
 		exit 1
 	fi
 
-	$CURL -H Expect: -F fileupload="@${img}" -F xml=yes http://www.imageshack.us/index.php > $TMPFILE
+	MIMETYPE=$(get_mimetype $img)
+	$CURL -H Expect: -F fileupload="@${img};type=$MIMETYPE" -F xml=yes http://www.imageshack.us/index.php > $TMPFILE
 
 	if [ $IMAGE_LINK = "1" ]; then
 		echo "Url of image on imageshack:"
