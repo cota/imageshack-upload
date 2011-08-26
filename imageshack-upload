@@ -25,14 +25,19 @@ CURL=$(which curl)
 
 IMAGE_LINK="1"
 THUMB_LINK="0"
+BBCODE="0"
+
 
 # Read arguments
-while getopts "ait" option
+while getopts "abit" option
 do
 	case $option in
 		a )
 			IMAGE_LINK="1"
 			THUMB_LINK="1"
+			;;
+		b )
+			BBCODE="1"
 			;;
 		i )
 			IMAGE_LINK="1"
@@ -69,6 +74,8 @@ function usage() {
 	echo
 	echo "Options are in"
 	echo "   -a : show image and thumbnail link."
+	echo "   -b : show image BBcode. With -t, show BBcode for thumbnail linking"
+	echo "        to full-size image."
 	echo "   -i : show only image link (same as no option)."
 	echo "   -t : show only thumbnail link."
 	echo
@@ -100,11 +107,21 @@ function upload() {
 	if [ $IMAGE_LINK = "1" ]; then
 		echo "Url of image on imageshack:"
 		echo "$URL"
+		if [ $BBCODE = "1" ]; then
+			echo "BBcode of image on imageshack:"
+			echo "[img]$URL[/img]"
+		fi
 	fi
+
 	if [ $THUMB_LINK = "1" ]; then
 		echo "Url of thumbshot on imageshack:"
 		echo "$THUMB"
+		if [ $BBCODE = "1" ]; then
+			echo "BBcode of thumbnail + link to full-size image on imageshack:"
+			echo "[url=$URL][img]$THUMB[/img][/url]"
+		fi
 	fi
+
 	rm -f $TMPFILE
 }
 
