@@ -69,7 +69,7 @@ function usage() {
 	echo "imageshack_upload $myver"
 	echo "usage: $0 [options] <root>"
 	echo
-	echo "This script allow you to send image to htpp://www.imageshack.us"
+	echo "This script allow you to send image to http://www.imageshack.us"
 	echo "in command line"
 	echo
 	echo "Options are in"
