@@ -56,6 +56,10 @@ function cleanup() {
         [ "$1" ] && exit $1
 }
 
+function trim() {
+	echo $1;
+}
+
 function usage() {
 	echo "imageshack_upload $myver"
 	echo "usage: $0 [options] <root>"
@@ -90,13 +94,16 @@ function upload() {
 	MIMETYPE=$(get_mimetype $img)
 	$CURL -H Expect: -F fileupload="@${img};type=$MIMETYPE" -F xml=yes http://www.imageshack.us/index.php > $TMPFILE
 
+	URL=$(trim $(cat $TMPFILE | grep -E "<image_link>(.*)</image_link>" | sed 's|<image_link>\(.*\)</image_link>|\1|'))
+	THUMB=$(trim $(cat $TMPFILE | grep -E "<thumb_link>(.*)</thumb_link>" | sed 's|<thumb_link>\(.*\)</thumb_link>|\1|'))
+
 	if [ $IMAGE_LINK = "1" ]; then
 		echo "Url of image on imageshack:"
-		echo $(cat $TMPFILE | grep -E "<image_link>(.*)</image_link>" | sed 's|<image_link>\(.*\)</image_link>|\1|')
+		echo "$URL"
 	fi
 	if [ $THUMB_LINK = "1" ]; then
 		echo "Url of thumbshot on imageshack:"
-		echo $(cat $TMPFILE | grep -E "<thumb_link>(.*)</thumb_link>" | sed 's|<thumb_link>\(.*\)</thumb_link>|\1|')
+		echo "$THUMB"
 	fi
 	rm -f $TMPFILE
 }
