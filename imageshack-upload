@@ -1,22 +1,22 @@
 #!/bin/bash
-# 
-#   imageshack_upload.sh 
-#  
-#   Copyright (c) 2006 by Benoit Chesneau <benoit@bchesneau.info> 
-#  
+#
+#   imageshack_upload.sh
+#
+#   Copyright (c) 2006 by Benoit Chesneau <benoit@bchesneau.info>
+#
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
 #   the Free Software Foundation; either version 2 of the License, or
 #   (at your option) any later version.
-# 
+#
 #   This program is distributed in the hope that it will be useful,
 #   but WITHOUT ANY WARRANTY; without even the implied warranty of
 #   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #   GNU General Public License for more details.
-#  
+#
 #   You should have received a copy of the GNU General Public License
 #   along with this program; if not, write to the Free Software
-#   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, 
+#   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
 #   USA.
 #
 
@@ -68,7 +68,7 @@ function usage() {
 	echo "   -i : show only image link (same as no option)."
 	echo "   -t : show only thumbnail link."
 	echo
-	echo "example: imageshack_upload.sh myimage.png [myimage2.png ...]" 
+	echo "example: imageshack_upload.sh myimage.png [myimage2.png ...]"
 	echo
 }
 
@@ -109,17 +109,5 @@ for i in "$@"
 do
 	upload "$i"
 done
-
-# img="$1"
-# 
-# if ! [ -f "$img" ]; then
-# 	echo "Errot: file don't exist"
-# 	exit 1
-# fi
-# 
-# $CURL -H Expect: -F fileupload="@${img}" -F xml=yes http://www.imageshack.us/index.php > $TMPFILE
-# 
-# echo "Url of image on imageshack:"
-# echo $(cat $TMPFILE | grep -E "<image_link>(.*)</image_link>" | sed 's|<image_link>\(.*\)</image_link>|\1|')
 
 cleanup
