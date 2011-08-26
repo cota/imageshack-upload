@@ -41,6 +41,7 @@ function usage() {
 	echo "   -h|--help : show this help message."
 	echo "   -i : show only image link (same as no option)."
 	echo "   -t : show only thumbnail link."
+	echo "   -v|--version: print version string"
 	echo
 	echo "example: imageshack_upload.sh myimage.png [myimage2.png ...]"
 	echo
@@ -53,6 +54,11 @@ fi
 
 if [ "$1" = "-h" -o "$1" = "--help" ]; then
 	usage
+	exit 0
+fi
+
+if [ "$1" = "-v" -o "$1" = "--version" ]; then
+	echo "$myver"
 	exit 0
 fi
 
