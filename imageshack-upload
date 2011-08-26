@@ -20,7 +20,7 @@
 #   USA.
 #
 
-myver='0.2'
+myver='0.3'
 CURL=$(which curl)
 
 IMAGE_LINK="1"
