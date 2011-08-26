@@ -27,6 +27,34 @@ IMAGE_LINK="1"
 THUMB_LINK="0"
 BBCODE="0"
 
+function usage() {
+	echo "imageshack_upload $myver"
+	echo "usage: $0 [options] <root>"
+	echo
+	echo "This script allow you to send image to http://www.imageshack.us"
+	echo "in command line"
+	echo
+	echo "Options are in"
+	echo "   -a : show image and thumbnail link."
+	echo "   -b : show image BBcode. With -t, show BBcode for thumbnail linking"
+	echo "        to full-size image."
+	echo "   -h|--help : show this help message."
+	echo "   -i : show only image link (same as no option)."
+	echo "   -t : show only thumbnail link."
+	echo
+	echo "example: imageshack_upload.sh myimage.png [myimage2.png ...]"
+	echo
+}
+
+if [ $# -lt 1 ]; then
+	usage
+	exit 1
+fi
+
+if [ "$1" = "-h" -o "$1" = "--help" ]; then
+	usage
+	exit 0
+fi
 
 # Read arguments
 while getopts "abit" option
@@ -63,24 +91,6 @@ function cleanup() {
 
 function trim() {
 	echo $1;
-}
-
-function usage() {
-	echo "imageshack_upload $myver"
-	echo "usage: $0 [options] <root>"
-	echo
-	echo "This script allow you to send image to http://www.imageshack.us"
-	echo "in command line"
-	echo
-	echo "Options are in"
-	echo "   -a : show image and thumbnail link."
-	echo "   -b : show image BBcode. With -t, show BBcode for thumbnail linking"
-	echo "        to full-size image."
-	echo "   -i : show only image link (same as no option)."
-	echo "   -t : show only thumbnail link."
-	echo
-	echo "example: imageshack_upload.sh myimage.png [myimage2.png ...]"
-	echo
 }
 
 function get_mimetype() {
@@ -127,18 +137,6 @@ function upload() {
 
 	rm -f $TMPFILE
 }
-
-if [ $# -lt 1 ]; then
-	usage
-	rm -rf $TMPFILE
-	exit 1
-fi
-
-if [ "$1" = "-h" -o "$1" = "--help" ]; then
-	usage
-	rm -rf $TMPFILE
-	exit 0
-fi
 
 for i in "$@"
 do
