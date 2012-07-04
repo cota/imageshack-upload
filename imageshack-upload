@@ -110,13 +110,16 @@ function upload() {
 	img="$1"
 
 	if ! [ -f "$img" ]; then
-		echo "Errot: file don't exist"
+		echo "Error: file don't exist"
 		exit 1
 	fi
 
 	MIMETYPE=$(get_mimetype $img)
-	$CURL -H Expect: -F fileupload="@${img};type=$MIMETYPE" -F xml=yes \
-	    http://www.imageshack.us/index.php > $TMPFILE
+	$CURL -H Expect: \
+		-F fileupload="@${img};type=$MIMETYPE" \
+		-F key=$IMAGESHACK_DEVELOPER_KEY \
+		-F xml=yes \
+		http://www.imageshack.us/upload_api.php > $TMPFILE
 
 	URL=$(trim $(cat $TMPFILE | grep -E "<image_link>(.*)</image_link>" | \
 	    sed 's|<image_link>\(.*\)</image_link>|\1|'))
@@ -143,6 +146,12 @@ function upload() {
 
 	rm -f $TMPFILE
 }
+
+if [ -z "$IMAGESHACK_DEVELOPER_KEY" ]; then
+	echo "imageshack_upload uses ImageShack API, so a developer key is required."
+	echo "It should be specified in enviroment variable IMAGESHACK_DEVELOPER_KEY."
+	exit 1
+fi
 
 for i in "$@"
 do
