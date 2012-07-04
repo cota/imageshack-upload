@@ -22,4 +22,7 @@ to get information on usage and a list of available options.
 
 Installation
 ------------
+The script uses ImageShack API, so a developer key is required. It should be
+specified in enviroment variable IMAGESHACK_DEVELOPER_KEY.
+
 The script is standalone; simply install it anywhere in your $PATH.
